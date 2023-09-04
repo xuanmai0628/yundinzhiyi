@@ -1,0 +1,133 @@
+.m-scene {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    .public-class{
+        width: 750px;
+        height: 1600px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+    }
+    // 这两个样式大多一样 所以用一个类
+    .bg {
+        background: url("../../assets/autoLoad/video_bg.jpg") 0/cover no-repeat;
+        z-index: 0;
+    }
+
+    .video {
+        pointer-events: none;
+        z-index: 9;
+
+    }
+
+    .scene-spr-ani {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 750px;
+        height: 1600px;
+        background: url("../../assets/autoLoad/scene_mask_max.png") no-repeat;
+        background-size: 18000px auto;
+        animation: run steps(24) 2s infinite;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    // 地址轮播 
+    .city-list-swiper {
+        width: 750px;
+        height: 750px;
+        background: url("../../assets/autoLoad/city_dmxy.jpg") 0 / cover no-repeat;
+        overflow: hidden;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -60%, 0);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-content: center;
+        pointer-events: auto;
+        z-index: 1;
+
+        .city-list-item {
+            width: 360px;
+            height: 360px;
+            position: relative;
+            border: 2px solid #fff;
+
+            .cover {
+                width: 360px;
+                height: 360px;
+            }
+
+            .name {
+                width: 318px;
+                height: 66px;
+                position: absolute;
+            }
+        }
+    }
+
+
+    .city-page {
+        width: 750px;
+        height: 1600px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 16px;
+        z-index: 999;
+        >div,>img{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .city-message {
+            width: 672px;
+            height: 400px;
+            background: url("../../assets/autoLoad/city_info_dmxy.png") 0 / cover no-repeat;
+            top: 210px;
+        }
+        .city-text {
+            height: 22px;
+            top: 1220px;
+        }
+
+        .city-return-btn {
+            width: 569px;
+            height: 72px;
+            background: url("../../assets/delayLoad/end_btn.png") 0 / cover no-repeat;
+            top: 1260px;
+            display: flex;
+            align-items: center;
+
+            .city-btn {
+                width: 285px;
+                height: 72px;
+            }
+
+            .city-ani-btn {
+                width: 410px;
+                height: 216px;
+                background: url("../../assets/delayLoad/anniu_000_iSpt\ 2.png") 0 / cover no-repeat;
+                position: absolute;
+                right: -10%;
+                pointer-events: none;
+
+            }
+
+        }
+
+    }
+}
+
+@keyframes run {
+    to {
+        background-position: -18000px;
+    }
+}
