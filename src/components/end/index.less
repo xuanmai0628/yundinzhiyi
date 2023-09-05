@@ -4,13 +4,16 @@
     height: 100%;
     // overflow: auto !important;
 
-
+    canvas{
+        width: 750px;
+        height: 1600px;
+    }
     .m-end-bg-box {
         width: 100%;
         height: 100%;
         overflow: auto !important;
         position: absolute;
-
+        
         &::-webkit-scrollbar {
             display: none;
         }
@@ -73,16 +76,18 @@
     .m-share-bg {
         width: 750px;
         height: 1600px;
-        background: url("../../assets/delayLoad/end_pop_dmxy.jpg") 0 / cover no-repeat;
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate3d(-50%, -50%, 0);
         opacity: 0;
-        // z-index: -1;
         font-size: 26px;
         color: #fff;
         pointer-events: none;
+        >img{
+            width: 100%;
+            height: 100%;
+        }
         .m-share-info {
             width: 650px;
             height: 70px;
@@ -95,7 +100,7 @@
 
         >div {
             position: absolute;
-
+            pointer-events: auto;
         }
 
         .m-share-return {
@@ -104,7 +109,6 @@
             background: url("../../assets/delayLoad/btn_popup_close.png") 0/cover no-repeat;
             top: 230px;
             left: 20px;
-            pointer-events: auto;
 
         }
 
@@ -128,9 +132,36 @@
             >span {
                 color: #d7b15e;
             }
-
         }
+        .share-friend{
+            width: 270px;
+            height: 80px;
+            top: 1290px;
+            right: 100px;
 
+        };
+        .share-save-img{
+            width: 270px;
+            height: 80px;
+            top: 1290px;
+            left: 100px;
+        }
+        .share-overlay{
+            width: 750px;
+            height: 1600px;
+            background-color: black;
+            opacity: 0;
+            top: 0;
+            left: 0;
+            
+        }
+        .share-icon{
+            width: 464px;
+            height: 103px;
+            background: url("../../assets/delayLoad/share_icon.png") 0/cover no-repeat;
+            right: 40px;
+            top: 100px;
+        }
     }
 
 }

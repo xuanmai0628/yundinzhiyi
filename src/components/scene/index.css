@@ -31,6 +31,16 @@
   pointer-events: none;
   z-index: 2;
 }
+.m-scene .play-music {
+  position: absolute;
+  right: 50px;
+  top: 100px;
+  z-index: 999;
+}
+.m-scene .play-music > img {
+  width: 80px;
+  height: 80px;
+}
 .m-scene .city-list-swiper {
   width: 750px;
   height: 750px;

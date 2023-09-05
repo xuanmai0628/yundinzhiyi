@@ -48,7 +48,11 @@ export default {
 
             const timeListener = () => {
                 if (video.currentTime <= 0) return
-                if (video.currentTime >= 18) return commonHub.commit('pageChange', 'scene')
+                // 到18秒就跳 后面有些多余片段
+                if (video.currentTime >= 18) {
+                    data.videoPlayer.stopLoad()
+                    commonHub.commit('pageChange', 'scene')
+                }
                 if (!isVideoStart) {
                     commonHub.commit('videoStart')
                     isVideoStart = true
@@ -65,7 +69,6 @@ export default {
                 muted: false,
                 poster: '../../assets/autoLoad/video_bg.jpg',
                 tryMultipleVideoPlayAtTheSameTime: false,
-                // timesParam: data.times,
                 onTimes: (name) => {
                     console.log(name);
                 },
