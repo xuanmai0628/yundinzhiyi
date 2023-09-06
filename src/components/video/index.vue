@@ -30,7 +30,6 @@ export default {
             if (pageName === 'video') {
                 data.videoPlayer.play()
                 videoDom.value.play()
-                console.log(data.videoPlayer)
             }
         })
         // 跳过
@@ -49,7 +48,7 @@ export default {
             const timeListener = () => {
                 if (video.currentTime <= 0) return
                 // 到18秒就跳 后面有些多余片段
-                if (video.currentTime >= 18) {
+                if (video.currentTime >= 19) {
                     data.videoPlayer.stopLoad()
                     commonHub.commit('pageChange', 'scene')
                 }
@@ -70,7 +69,6 @@ export default {
                 poster: '../../assets/autoLoad/video_bg.jpg',
                 tryMultipleVideoPlayAtTheSameTime: false,
                 onTimes: (name) => {
-                    console.log(name);
                 },
                 onEnd: () => {
 

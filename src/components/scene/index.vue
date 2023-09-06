@@ -3,6 +3,8 @@
         <div class="bg public-class" v-show="cityListShow">
         </div>
         <div v-show="cityListShow" class="scene-spr-ani">
+            <div class="scene-tips"></div>
+
         </div>
         <div></div>
         <div class="city-list-swiper" :style="currentCover">
@@ -11,7 +13,6 @@
                 <img class="name" :src="item.nameSrc" alt="" :style="item.position">
             </div>
         </div>
-        <!-- <div class=""></div> -->
 
         <!-- 地址内页 -->
         <div v-show="cityPageShow" class="city-page">
@@ -46,13 +47,6 @@ import { ref, onMounted, reactive, toRefs } from 'vue';
 import { commonHub } from '@/utils/commonHub.js'
 import { MMD } from '../../../public/ossweb-img/lib/mmd.videoplayer.min.1.0.1';
 import { useStore } from 'vuex'
-
-// import Swiper from 'swiper/bundle'
-// import 'swiper/swiper-bundle.css'
-// import { Swiper, SwiperSlide } from 'swiper/vue';
-
-// Import Swiper styles
-// import 'swiper/css';
 
 export default {
     components: {
@@ -95,7 +89,7 @@ export default {
                 audioSrc: require('../../assets/media/dmxy.mp3'),
                 shareImg: require("../../assets/delayLoad/end_pop_dmxy.jpg"),
                 shareTitleImg: require("../../assets/delayLoad/end_dmxy_title.png"),
-                shareBgImg:require("../../assets/autoLoad/share_bg_dmxy.jpg")
+                shareBgImg: require("../../assets/autoLoad/share_bg_dmxy.jpg")
             },
             {
                 id: 1,
@@ -109,7 +103,7 @@ export default {
                 audioSrc: require('../../assets/media/aony.mp3'),
                 shareImg: require("../../assets/delayLoad/end_pop_aony.jpg"),
                 shareTitleImg: require("../../assets/delayLoad/end_aony_title.png"),
-                shareBgImg:require("../../assets/autoLoad/share_bg_aony.jpg")
+                shareBgImg: require("../../assets/autoLoad/share_bg_aony.jpg")
             },
             {
                 id: 2,
@@ -123,7 +117,7 @@ export default {
                 audioSrc: require('../../assets/media/za.mp3'),
                 shareImg: require("../../assets/delayLoad/end_pop_za.jpg"),
                 shareTitleImg: require("../../assets/delayLoad/end_za_title.png"),
-                shareBgImg:require("../../assets/autoLoad/share_bg_za.jpg")
+                shareBgImg: require("../../assets/autoLoad/share_bg_za.jpg")
             },
             {
                 id: 3,
@@ -137,7 +131,7 @@ export default {
                 audioSrc: require('../../assets/media/nkss.mp3'),
                 shareImg: require("../../assets/delayLoad/end_pop_nkss.jpg"),
                 shareTitleImg: require("../../assets/delayLoad/end_nkss_title.png"),
-                shareBgImg:require("../../assets/autoLoad/share_bg_nkss.jpg")
+                shareBgImg: require("../../assets/autoLoad/share_bg_nkss.jpg")
             },
         ]);
 
@@ -146,21 +140,20 @@ export default {
             let isVideoStart = false;
             video.setAttribute('x5-video-player-type', 'h5-page')
             commonHub.on('pageChange', (pageName) => {
-                console.log('scene页面接收名称', pageName)
+                console.log('scene页面接收名称', pageName);
                 if (pageName === 'scene') {
                     onReturnCityList();
                     audioDom.value.play();
-                    // console.log('音频啊啊啊', audioDom.value.play());
-
+                    store.state.cachedView.audioDomBgm = audioDom.value;
+                    //end页如果静音 那就设置图标为静音
+                    data.playMusicShow = store.state.cachedView.MusicShow
                 }
             })
 
             const timeListener = () => {
                 // console.log('当前时间==>', video.currentTime);
-                let timer = Math.round(video.currentTime)
+                let timer = Math.round(video.currentTime);
                 // console.log('当前时间取整==>', timer);
-                // console.log(data.videoPlayer);
-                // if (timer > 1) return data.videoPlayer.pause();
                 if (video.currentTime <= 0) return;
 
                 // 重复播放
@@ -170,12 +163,12 @@ export default {
 
                 if (!isVideoStart) {
                     commonHub.commit('videoStart')
-                    isVideoStart = true
+                    isVideoStart = true;
                 }
 
                 if (video.currentTime > 1) {
                     // 隐藏轮播相关内容
-                    data.cityListShow = false
+                    data.cityListShow = false;
                 }
 
                 // 判断内页的东西显示和隐藏
@@ -204,49 +197,52 @@ export default {
             // console.log('当前点击的视频链接', item.videoSrc);
             data.videoPlayer.src = item.videoSrc;
             // 播放当前视频
-            data.videoPlayer.play()
-            videoDom.value.play()
+            data.videoPlayer.play();
+            videoDom.value.play();
             // 设置当前封面
-            data.currentCover = `background: url(${item.coverSrc}) 0 / cover no-repeat;`
-            data.currentInfo = `background: url(${item.infoSrc}) 0 / cover no-repeat;`
+            data.currentCover = `background: url(${item.coverSrc}) 0 / cover no-repeat;`;
+            data.currentInfo = `background: url(${item.infoSrc}) 0 / cover no-repeat;`;
             data.currentText = item.textSrc;
             store.state.cachedView.name = item.name;
-            store.state.cachedView.shareImg = item.shareImg
-            store.state.cachedView.shareTitleImg = item.shareTitleImg
-            store.state.cachedView.shareBgImg = item.shareBgImg
+            store.state.cachedView.shareImg = item.shareImg;
+            store.state.cachedView.shareTitleImg = item.shareTitleImg;
+            store.state.cachedView.shareBgImg = item.shareBgImg;
 
             // 设置音频
             data.audioSrc = item.audioSrc
             setTimeout(() => {
-                    audioSrcDom.value.play();
+                audioSrcDom.value.play();
             }, 3500)
+            setTimeout(()=>{
+                audioDom.value.play();
+            },8000)
         };
         // 开关音量音乐
         const onPlayMusic = () => {
-            data.playMusicShow = false
-            videoDom.value.muted = 100
-            audioDom.value.muted = 100
-            audioSrcDom.value.muted = 100
+            data.playMusicShow = false;
+            videoDom.value.muted = 100;
+            audioDom.value.muted = 100;
+            audioSrcDom.value.muted = 100;
 
         }
         const onPauseMusic = () => {
-            data.playMusicShow = true
+            data.playMusicShow = true;
             videoDom.value.muted = 0;
-            audioDom.value.muted = 0
-            audioSrcDom.value.muted = 0
+            audioDom.value.muted = 0;
+            audioSrcDom.value.muted = 0;
 
         }
         // 返回重新选择
         const onReturnCityList = () => {
             data.cityListShow = true;
             data.cityPageShow = false;
-            data.videoPlayer.stopLoad()
+            data.videoPlayer.stopLoad();
             audioSrcDom.value.pause();
         }
 
         // 去落版页
         const onGoEnd = () => {
-            commonHub.commit('pageChange', 'end')
+            commonHub.commit('pageChange', 'end');
 
         }
         onMounted(() => {
@@ -254,7 +250,7 @@ export default {
 
         });
 
-        const refs = toRefs(data)
+        const refs = toRefs(data);
         return {
             ...refs,
             imgArr,

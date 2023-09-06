@@ -9,8 +9,10 @@
                 <div class="return-scene" @click="onReturnScene"></div>
             </div>
         </div>
-
-
+        <div class="play-music">
+            <img src="../../assets//autoLoad/audio_play.png" alt="" v-show="playMusicShow" @touchstart="onPlayMusic">
+            <img src="../../assets//autoLoad/audio_puse.png" alt="" v-show="!playMusicShow" @touchstart="onPauseMusic">
+        </div>
         <!-- 海报展示  -->
         <div class="m-share-bg">
             <img class="m-share-img" :src="shareImg" alt="">
@@ -21,7 +23,7 @@
                 <p>已加入{{ cityName }}城邦</p>
             </div>
             <div class="m-share-rank">
-                已有<span>{{ 1 }}</span>弈士入驻{{ cityName }}城邦目前排名第<span>{{ 1 }}</span>
+                已有<span>{{ 1 }}</span>弈士入驻{{ cityName }} <br> 城邦目前排名第<span>{{ 1 }}</span>
             </div>
 
             <div class="share-save-img" @touchstart="onDownStart" @touchend="onDownEnd">
@@ -31,7 +33,6 @@
             <div class="share-overlay" @click="onHideOverlay" v-show="overlayShow">
             </div>
             <div class="share-icon" v-show="overlayShow"></div>
-
         </div>
     </div>
 </template>
@@ -42,8 +43,6 @@ import { commonHub } from '@/utils/commonHub.js'
 import { MMD } from '../../../public/ossweb-img/lib/mmd.videoplayer.min.1.0.1';
 import { gsap } from 'gsap';
 import { useStore } from 'vuex'
-// import { ImageResource } from 'pixi.js';
-import html2canvas from 'html2canvas'
 export default {
     setup() {
         const store = useStore();
@@ -58,55 +57,23 @@ export default {
             overlayShow: false,
             // 下载图片的
             timer: null,
-            canvasImg: require("../../assets/autoLoad/share_bg_dmxy.jpg")
+            canvasImg: require("../../assets/autoLoad/share_bg_dmxy.jpg"),
+            playMusicShow: true
         })
 
-        let cs = ref()
         commonHub.on('pageChange', (pageName) => {
-            console.log('传过来的名称video', pageName)
+            console.log('传过来的名称end', pageName)
             if (pageName === 'end') {
                 data.endShow = true;
-                data.cityName = store.state.cachedView.name
+                data.cityName = store.state.cachedView.name;
                 // 封面地址修改和标题修改
-                data.shareImg = store.state.cachedView.shareImg
-                data.shareTitleImg = store.state.cachedView.shareTitleImg
-                data.canvasImg =  store.state.cachedView.shareBgImg
+                data.shareImg = store.state.cachedView.shareImg;
+                data.shareTitleImg = store.state.cachedView.shareTitleImg;
+                data.canvasImg = store.state.cachedView.shareBgImg;
+                downloadIamge()
+
             }
         })
-
-        // 初始化视频
-        const initVideo = () => {
-            const video = videoDom.value;
-            let isVideoStart = false;
-            video.setAttribute('x5-video-player-type', 'h5-page')
-
-            const timeListener = () => {
-                if (video.currentTime <= 0) return
-                if (!isVideoStart) {
-                    // commonHub.commit('videoStart')
-                    isVideoStart = true
-                    // setTimeout(() => {
-                    //   data.showSkip = true
-                    // }, 1000)
-                }
-            }
-            video.addEventListener('timeupdate', timeListener);
-            // data.videoPlayer = new MMD.VideoPlayer({
-            //     videoElement: video,
-            //     src: require('../../assets/media/intro0605.mp4'),
-            //     loop: false,
-            //     muted: false,
-            //     poster: '../../assets/autoLoad/video_bg.jpg',
-            //     tryMultipleVideoPlayAtTheSameTime: false,
-            //     // timesParam: data.times,
-            //     onTimes: (name) => {
-            //         console.log(name);
-            //     },
-            //     onEnd: () => {
-
-            //     }
-            // })
-        }
         const onStartAni = () => {
             gsap.fromTo(".m-end-book-now",
                 {
@@ -120,9 +87,7 @@ export default {
                 alert("啊啊啊啊啊");
             }, 500)
         }
-        onMounted(() => {
-            // initVideo()
-        })
+
         // 重新选择英雄
         const onReturnScene = () => {
             commonHub.commit('pageChange', 'scene')
@@ -197,22 +162,22 @@ export default {
         const downloadIamge = () => {
             console.log('调用函数');
             //下载图片地址和图片名
-
             var canvas = document.createElement("canvas");
             var context = canvas.getContext('2d');
+            var imgElement = document.getElementById("myimg");
 
             var img = new Image()
+
             img.src = data.canvasImg
             //  加载图片
             img.onload = function () {
                 if (img.complete) {
+                    console.log('图片路径', data.shareTitleImg);
                     //  根据图像重新设定了canvas的长宽
                     canvas.setAttribute("width", img.width)
                     canvas.setAttribute("height", img.height)
                     //  绘制图片
                     context.drawImage(img, 0, 0, img.width, img.height);
-                    var imgElement = document.getElementById("myimg");
-                    console.log('看看什么东西', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
                     context.fillStyle = "white";
                     //设置填充文字样式
                     context.font = "22px Georgia";
@@ -220,37 +185,36 @@ export default {
                     context.fillText("张三", 176, 640);
                     context.fillText(`已加入${data.cityName}城邦`, 176, 676);
                     context.fillStyle = "#d7b15e";
-                    context.fillText("1", 182, 1374);
-                    context.fillText("1", 294, 1410);
+                    context.fillText("1", 192, 1374);
+                    context.fillText("1", 304, 1410);
                     context.fillStyle = "white";
-                    context.fillText("已有", 130, 1376);
-                    context.fillText(`弈士入驻${data.cityName}`, 200, 1376);
-                    context.fillText(`城邦目前排名第`, 130, 1410);
-                    imgElement.src = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
-                    console.log('绘制图片完成');
+                    context.fillText("已有", 140, 1376);
+                    context.fillText(`弈士入驻${data.cityName}`, 210, 1376);
+                    context.fillText(`城邦目前排名第`, 140, 1410);
+                    // 第二张小图绘制
+                    var imgTitle = new Image();
+                    imgTitle.src = data.shareTitleImg
+                    imgTitle.onload = function () {
+                        //  绘制图片
+                        context.drawImage(imgTitle, 64, 480, imgTitle.width, imgTitle.height);
+                        imgElement.src = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
+                        console.log('绘制图片完成');
+
+                    }
+                  
                 }
             }
-
-            // let image = new Image();
-            // // 解决跨域 Canvas 污染问题
-            // image.setAttribute("crossOrigin", "anonymous");
-            // image.onload = () => {
-            //     console.log('到下载这步了');
-            //     let canvas = document.createElement("canvas");
-            //     canvas.width = image.width;
-            //     canvas.height = image.height;
-            //     let context = canvas.getContext("2d");
-            //     context.drawImage(image, 0, 0, image.width, image.height);
-            //     let url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
-            //     let a = document.createElement("a"); // 生成一个a元素
-            //     let event = new MouseEvent("click"); // 创建一个单击事件
-            //     a.download = name || "photo"; // 设置图片名称
-            //     a.href = url; // 将生成的URL设置为a.href属性
-            //     a.dispatchEvent(event); // 触发a的单击事件
-            // };
-            // image.src = imgsrc;
         }
-
+        const onPlayMusic = () => {
+            store.state.cachedView.audioDomBgm.muted = 100;
+            data.playMusicShow = false
+            store.state.cachedView.MusicShow = false
+        }
+        const onPauseMusic = () => {
+            store.state.cachedView.audioDomBgm.muted = 0
+            data.playMusicShow = true
+            store.state.cachedView.MusicShow = true
+        }
         const refs = toRefs(data);
 
         return {
@@ -264,8 +228,8 @@ export default {
             onHideOverlay,
             onDownStart,
             onDownEnd,
-            cs
-
+            onPlayMusic,
+            onPauseMusic,
         }
     }
 }

@@ -31,6 +31,16 @@
   pointer-events: none;
   z-index: 2;
 }
+.m-scene .scene-spr-ani .scene-tips {
+  width: 616px;
+  height: 63px;
+  background: url("../../assets/autoLoad/scene_tips.png") 0 / cover no-repeat;
+  position: absolute;
+  left: 50%;
+  top: 1330px;
+  transform: translateX(-50%);
+  z-index: 9;
+}
 .m-scene .play-music {
   position: absolute;
   right: 50px;

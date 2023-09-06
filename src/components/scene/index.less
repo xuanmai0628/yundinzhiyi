@@ -3,7 +3,7 @@
     height: 100%;
     position: absolute;
 
-    .public-class{
+    .public-class {
         width: 750px;
         height: 1600px;
         position: absolute;
@@ -11,6 +11,7 @@
         top: 50%;
         transform: translate3d(-50%, -50%, 0);
     }
+
     // 这两个样式大多一样 所以用一个类
     .bg {
         background: url("../../assets/autoLoad/video_bg.jpg") 0/cover no-repeat;
@@ -34,7 +35,19 @@
         animation: run steps(24) 2s infinite;
         pointer-events: none;
         z-index: 2;
+        .scene-tips {
+            width: 616px;
+            height: 63px;
+            background: url("../../assets/autoLoad/scene_tips.png") 0/cover no-repeat;
+            position: absolute;
+            left: 50%;
+            top: 1330px;
+            transform: translateX(-50%);
+            z-index: 9;
+        }
+    
     }
+
     .play-music {
         position: absolute;
         right: 50px;
@@ -47,6 +60,7 @@
         }
 
     }
+
     // 地址轮播 
     .city-list-swiper {
         width: 750px;
@@ -84,7 +98,7 @@
         }
     }
 
-
+   
     .city-page {
         width: 750px;
         height: 1600px;
@@ -93,17 +107,21 @@
         transform: translateY(-50%);
         font-size: 16px;
         z-index: 999;
-        >div,>img{
+
+        >div,
+        >img {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
         }
+
         .city-message {
             width: 672px;
             height: 400px;
             background: url("../../assets/autoLoad/city_info_dmxy.png") 0 / cover no-repeat;
             top: 210px;
         }
+
         .city-text {
             height: 22px;
             top: 1220px;

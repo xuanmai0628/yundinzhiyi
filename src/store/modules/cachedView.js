@@ -5,6 +5,8 @@ const state = {
   shareImg: '',
   shareTitleImg: '',
   shareBgImg: '',
+  audioDomBgm:null,
+  MusicShow:true
 }
 
 const mutations = {
