@@ -95,6 +95,7 @@ export default {
                 audioSrc: require('../../assets/media/dmxy.mp3'),
                 shareImg: require("../../assets/delayLoad/end_pop_dmxy.jpg"),
                 shareTitleImg: require("../../assets/delayLoad/end_dmxy_title.png"),
+                shareBgImg:require("../../assets/autoLoad/share_bg_dmxy.jpg")
             },
             {
                 id: 1,
@@ -108,6 +109,7 @@ export default {
                 audioSrc: require('../../assets/media/aony.mp3'),
                 shareImg: require("../../assets/delayLoad/end_pop_aony.jpg"),
                 shareTitleImg: require("../../assets/delayLoad/end_aony_title.png"),
+                shareBgImg:require("../../assets/autoLoad/share_bg_aony.jpg")
             },
             {
                 id: 2,
@@ -121,6 +123,7 @@ export default {
                 audioSrc: require('../../assets/media/za.mp3'),
                 shareImg: require("../../assets/delayLoad/end_pop_za.jpg"),
                 shareTitleImg: require("../../assets/delayLoad/end_za_title.png"),
+                shareBgImg:require("../../assets/autoLoad/share_bg_za.jpg")
             },
             {
                 id: 3,
@@ -134,6 +137,7 @@ export default {
                 audioSrc: require('../../assets/media/nkss.mp3'),
                 shareImg: require("../../assets/delayLoad/end_pop_nkss.jpg"),
                 shareTitleImg: require("../../assets/delayLoad/end_nkss_title.png"),
+                shareBgImg:require("../../assets/autoLoad/share_bg_nkss.jpg")
             },
         ]);
 
@@ -209,6 +213,7 @@ export default {
             store.state.cachedView.name = item.name;
             store.state.cachedView.shareImg = item.shareImg
             store.state.cachedView.shareTitleImg = item.shareTitleImg
+            store.state.cachedView.shareBgImg = item.shareBgImg
 
             // 设置音频
             data.audioSrc = item.audioSrc

@@ -4,6 +4,7 @@ const state = {
   name: '德玛西亚',
   shareImg: '',
   shareTitleImg: '',
+  shareBgImg: '',
 }
 
 const mutations = {

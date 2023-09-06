@@ -3,10 +3,6 @@
   width: 100%;
   height: 100%;
 }
-.m-end canvas {
-  width: 750px;
-  height: 1600px;
-}
 .m-end .m-end-bg-box {
   width: 100%;
   height: 100%;
@@ -69,7 +65,7 @@
   color: #fff;
   pointer-events: none;
 }
-.m-end .m-share-bg > img {
+.m-end .m-share-bg .m-share-img {
   width: 100%;
   height: 100%;
 }
@@ -122,6 +118,12 @@
   height: 80px;
   top: 1290px;
   left: 100px;
+}
+.m-end .m-share-bg .share-save-img #myimg {
+  position: absolute;
+  width: 270px;
+  height: 80px;
+  opacity: 0;
 }
 .m-end .m-share-bg .share-overlay {
   width: 750px;

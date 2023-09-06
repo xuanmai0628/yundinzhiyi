@@ -24,11 +24,9 @@
                 已有<span>{{ 1 }}</span>弈士入驻{{ cityName }}城邦目前排名第<span>{{ 1 }}</span>
             </div>
 
-            <div id="capture">
-                <h1>我真的哭死</h1>
+            <div class="share-save-img" @touchstart="onDownStart" @touchend="onDownEnd">
+                <img id="myimg" src="" alt="">
             </div>
-
-            <div class="share-save-img" @touchstart="onDownStart" @touchend="onDownEnd"></div>
             <div class="share-friend" @click="onShowOverlay"></div>
             <div class="share-overlay" @click="onHideOverlay" v-show="overlayShow">
             </div>
@@ -60,7 +58,7 @@ export default {
             overlayShow: false,
             // 下载图片的
             timer: null,
-            lock: 1
+            canvasImg: require("../../assets/autoLoad/share_bg_dmxy.jpg")
         })
 
         let cs = ref()
@@ -72,6 +70,7 @@ export default {
                 // 封面地址修改和标题修改
                 data.shareImg = store.state.cachedView.shareImg
                 data.shareTitleImg = store.state.cachedView.shareTitleImg
+                data.canvasImg =  store.state.cachedView.shareBgImg
             }
         })
 
@@ -124,14 +123,6 @@ export default {
         onMounted(() => {
             // initVideo()
         })
-        // const onPlayMusic = () => {
-        //   data.playMusicShow = false;
-        //   videoDom.value.muted = 100
-        // }
-        // const onPuseMusic = () => {
-        //   data.playMusicShow = true;
-        //   videoDom.value.muted = 0
-        // }
         // 重新选择英雄
         const onReturnScene = () => {
             commonHub.commit('pageChange', 'scene')
@@ -206,17 +197,39 @@ export default {
         const downloadIamge = () => {
             console.log('调用函数');
             //下载图片地址和图片名
-            html2canvas(document.querySelector('#capture')).then((canvas) => {
-                if (data.lock) {
 
-                    console.log('执行添加', canvas);
+            var canvas = document.createElement("canvas");
+            var context = canvas.getContext('2d');
 
-                    cs.value.appendChild(canvas);
-                    data.lock = 0;
+            var img = new Image()
+            img.src = data.canvasImg
+            //  加载图片
+            img.onload = function () {
+                if (img.complete) {
+                    //  根据图像重新设定了canvas的长宽
+                    canvas.setAttribute("width", img.width)
+                    canvas.setAttribute("height", img.height)
+                    //  绘制图片
+                    context.drawImage(img, 0, 0, img.width, img.height);
+                    var imgElement = document.getElementById("myimg");
+                    console.log('看看什么东西', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+                    context.fillStyle = "white";
+                    //设置填充文字样式
+                    context.font = "22px Georgia";
+                    //设置文字及其位置
+                    context.fillText("张三", 176, 640);
+                    context.fillText(`已加入${data.cityName}城邦`, 176, 676);
+                    context.fillStyle = "#d7b15e";
+                    context.fillText("1", 182, 1374);
+                    context.fillText("1", 294, 1410);
+                    context.fillStyle = "white";
+                    context.fillText("已有", 130, 1376);
+                    context.fillText(`弈士入驻${data.cityName}`, 200, 1376);
+                    context.fillText(`城邦目前排名第`, 130, 1410);
+                    imgElement.src = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
+                    console.log('绘制图片完成');
                 }
-            });
-
-
+            }
 
             // let image = new Image();
             // // 解决跨域 Canvas 污染问题
@@ -252,9 +265,7 @@ export default {
             onDownStart,
             onDownEnd,
             cs
-            // videoDom,
-            // onPlayMusic,
-            // onPuseMusic
+
         }
     }
 }

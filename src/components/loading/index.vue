@@ -37,6 +37,7 @@ export default {
                 data.progress = Math.round(progress);
             }).then((resource) => {
                 store.commit('cachedView/CHANGE_TEXTURE_LIST', resource)
+                console.log('resource',resource);
                 console.log(store.getters.textureList)
             })
             console.log('前置加载完成, 延迟加载开始')
